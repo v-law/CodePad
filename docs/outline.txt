@@ -1,0 +1,4 @@
+Ideas:
+! notepad records highlighted text
+- edit elements of current webpage (images, text)
+- block access of certain websites after given time
