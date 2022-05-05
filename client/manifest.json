@@ -1,5 +1,5 @@
 {
-    "manifest_version": 3,
+    "manifest_version": 2,
     "name": "CodePad",
     "version": "0.1.3",
     "description": "notepad records highlighted text",
