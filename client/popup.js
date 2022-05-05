@@ -14,35 +14,65 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('body').appendChild(notesdiv);
 
     const notes = document.querySelector('.notesdiv');
-    //const query = { active: true, currentWindow: true };
+    const noteobj = {};
+    const query = { active: true, currentWindow: true };
+    chrome.tabs.query(query, (tabs) => {
+        noteobj.url = tabs[0].url;
+    });
 
-    const note = document.createElement('div');
-    note.setAttribute('class', 'note');
     chrome.tabs.executeScript({
         code: "window.getSelection().toString();"
     }, function (selection) {
-        console.log(selection);
         if (!chrome.runtime.lastError) {
-        note.innerHTML = selection;//[0];
+            noteobj.text = selection;
+            console.log(noteobj);
+            fetch(chrome.runtime.getURL('config.json'), {
+                method: 'POST',
+                body: JSON.stringify(noteobj),
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/JSON'
+                }
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data);
+                    const note = document.createElement('div');
+                    note.setAttribute('class', 'note');
+                    note.appendChild(document.createTextNode(noteobj.text));
+                    note.addEventListener('click', function(e) {
+                        chrome.tabs.update({
+                            url: noteobj.url
+                       });
+                    }, false);
+                    notes.appendChild(note);
+                })
+                .catch((err) => {
+                    console.log('Error: ', err);
+                });
         }
     });
-    notes.appendChild(note);
-    
-    // chrome.tabs.query(query, (tabs) => {
-    //     const note = document.createElement('div');
-    //     note.setAttribute('class', 'note');
-    //     note.innerHTML = getHighlightedText(tabs[0].url);
-    //     notes.appendChild(note);
-    //     console.log(tabs);
-    // });
-});
 
-const getHighlightedText = (text) => {
-    var notetext = '';
-    if (window.getSelection) {
-        notetext = window.getSelection().toString();
-    } else if (document.selection && document.selection.type != "Control") {
-        notetext = document.selection.createRange().text;
-    }
-    return `${notetext} from ${text}`;
-}
+    fetch('config.json')
+        .then((data) => data.json())
+        .then((data) => {
+            console.log(data);
+            // Using JavaScript, populate your messages area with the list of messages retrieved via the AJAX request.
+            data.forEach((elem, i) => {
+                const note = document.createElement('div');
+                note.setAttribute('class', 'note');
+                note.appendChild(document.createTextNode(elem.text));
+                note.addEventListener('click', function(e) {
+                    chrome.tabs.update({
+                        url: elem.url
+                   });
+                }, false);
+                notes.appendChild(note);
+            });
+        })
+        .catch((err) => {
+            console.log('Error: ', err);
+        });
+
+
+});
