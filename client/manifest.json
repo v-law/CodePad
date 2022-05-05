@@ -2,5 +2,12 @@
     "manifest_version": 2,
     "name": "CodePad",
     "version": "0.1.0",
-    "description": "notepad records highlighted text"
+    "description": "notepad records highlighted text",
+    "browser_action": {
+        "default_popup": "popup.html"
+    },
+    "permissions": [
+        "tabs",
+        "activeTab"
+    ]
 }
