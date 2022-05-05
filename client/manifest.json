@@ -7,11 +7,7 @@
         "default_popup": "popup.html"
     },
     "permissions": [
-<<<<<<< HEAD
-        "tabs"
-=======
         "tabs",
         "activeTab"
->>>>>>> 1615d494d2bca57be7dd9605dd443170906135de
     ]
 }
