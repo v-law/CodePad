@@ -23,8 +23,8 @@ document.addEventListener('DOMContentLoaded', () => {
     chrome.tabs.executeScript({
         code: "window.getSelection().toString();"
     }, function (selection) {
-        if (!chrome.runtime.lastError) {
-            noteobj.text = selection;
+        if (!chrome.runtime.lastError && selection[0] !== '') {
+            noteobj.text = selection[0];
             console.log(noteobj);
             fetch(chrome.runtime.getURL('config.json'), {
                 method: 'POST',
@@ -57,7 +57,6 @@ document.addEventListener('DOMContentLoaded', () => {
         .then((data) => data.json())
         .then((data) => {
             console.log(data);
-            // Using JavaScript, populate your messages area with the list of messages retrieved via the AJAX request.
             data.forEach((elem, i) => {
                 const note = document.createElement('div');
                 note.setAttribute('class', 'note');
