@@ -1,6 +1,6 @@
 # CodePad
 
-CodePad is a google chrome extension created for easy recording of code snippets.
+CodePad is a google chrome extension created for easy recording of code snippets made over one night for a Codesmith hackathon (won 1st place).
 
 ## Functionality
 
@@ -8,5 +8,5 @@ The pop-up loads objects from a JSON file with its text notes and URLs. When som
 
 ## Technical Issues
 
-The fetch POST method is not working to add the new object containing the highlighted text and current URL to the JSON file.
-Scoping issues with retrieving data from the window through the pop-up javascript code was fixed using the chrome tabs API.
+- The fetch POST method is not working to add the new object containing the highlighted text and current URL to the JSON file.
+- Scoping issues with retrieving data from the window through the pop-up javascript code was fixed using the chrome tabs API.
